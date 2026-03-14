@@ -2,6 +2,9 @@
 keys.md
 config.json
 
+# Claude
+.claude
+
 # Python build artifacts
 __pycache__/
 *.pyc
