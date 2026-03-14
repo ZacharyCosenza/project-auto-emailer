@@ -4,6 +4,7 @@ config.json
 
 # Claude
 .claude
+CLAUDE.md
 
 # Python build artifacts
 __pycache__/
