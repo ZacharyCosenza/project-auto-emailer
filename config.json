@@ -1,0 +1,89 @@
+{
+  "instructions": [
+    "Exclude children's and family-only events. Include events suitable for general adult audiences."
+  ],
+  "searches": [
+    {
+      "query": "classical music symphony orchestra ballet opera this weekend NYC",
+      "label": "Music & Dance",
+      "type": "events",
+      "max_events": 3,
+      "sources": [
+        "https://new-york.events/concerts/classical/",
+        "https://new-york.events/ballet/",
+        "https://new-york.events/opera/"
+      ],
+      "instructions": [
+        "Exclude flamenco, contemporary dance, folk, and world music unless they have strong classical elements."
+      ]
+    },
+    {
+      "query": "NYC parks outdoor events this weekend",
+      "label": "Parks & Outdoors",
+      "type": "events",
+      "max_events": 3,
+      "sources": ["https://www.nycgovparks.org/events"],
+      "instructions": [
+        "Prioritize organized and programmed events over standing daily amenities.",
+        "Do not list open-access facilities (ice rinks, fishing areas, playgrounds) or recurring tours that operate every day without a specific organized gathering."
+      ]
+    },
+    {
+      "query": "street festivals outdoor markets fairs events this weekend NYC",
+      "label": "Festivals & Markets",
+      "type": "events",
+      "max_events": 3,
+      "sources": []
+    },
+    {
+      "query": "art museums galleries library cultural events this weekend NYC",
+      "label": "Arts & Culture",
+      "type": "events",
+      "max_events": 3,
+      "sources": [
+        "https://whitney.org/events",
+        "https://www.newyorkartworld.com/calendar/CurrentArtExhibitionsNow.html"
+      ],
+      "instructions": [
+        "Cover a range of institutions — do not list more than 5 events from any single institution.",
+        "Include both museum/gallery events (openings, tours, public programs) and library events (readings, talks, film screenings).",
+        "Prioritize opening receptions, curator tours, author talks, and ticketed events over general museum hours."
+      ]
+    },
+    {
+      "query": "NYC weather forecast this weekend",
+      "label": "Weather",
+      "type": "summary"
+    },
+    {
+      "query": "MTA NYC subway bus service changes advisories this weekend",
+      "label": "Transit",
+      "type": "summary"
+    }
+  ],
+  "email": {
+    "smtp_host": "smtp.gmail.com",
+    "smtp_port": 587,
+    "sender": "cosenzazachary@gmail.com",
+    "recipients": ["cosenzazachary@gmail.com"],
+    "subject_prefix": "NYC Weekend Events"
+  },
+  "llm": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "max_output_tokens": 16384,
+    "temperature": 0,
+    "call_delay": 20
+  },
+  "search": {
+    "max_results": 8
+  },
+  "scrape": {
+    "enabled": true,
+    "timeout": 10,
+    "max_chars_per_page": 20000
+  },
+  "schedule": {
+    "cron": "0 0 * * *"
+  }
+}

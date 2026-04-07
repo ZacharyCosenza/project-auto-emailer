@@ -26,8 +26,9 @@ _ENV_KEYS = [
 def _cron_to_on_calendar(cron: str) -> str:
     """Convert a simple 5-part cron string to a systemd OnCalendar value.
 
-    Supports only the common weekly pattern: 'M H * * DOW'
-    e.g. '0 8 * * 5' → 'Fri *-*-* 08:00:00'
+    Supports:
+      'M H * * DOW' (weekly)   e.g. '0 8 * * 5'  → 'Fri *-*-* 08:00:00'
+      'M H * * *'  (daily)     e.g. '0 0 * * *'  → '*-*-* 00:00:00'
     """
     parts = cron.strip().split()
     if len(parts) != 5:
@@ -35,13 +36,15 @@ def _cron_to_on_calendar(cron: str) -> str:
     minute, hour, day, month, dow = parts
     if day != "*" or month != "*":
         raise ValueError(
-            f"Only weekly cron patterns ('M H * * DOW') are supported. Got: {cron!r}\n"
+            f"Only daily/weekly cron patterns ('M H * * *' or 'M H * * DOW') are supported. Got: {cron!r}\n"
             "Edit ~/.config/systemd/user/auto-emailer.timer manually for other patterns."
         )
-    if dow not in _DOW_MAP:
-        raise ValueError(f"Unrecognised day-of-week value {dow!r} in cron: {cron!r}")
     hh = hour.zfill(2)
     mm = minute.zfill(2)
+    if dow == "*":
+        return f"*-*-* {hh}:{mm}:00"
+    if dow not in _DOW_MAP:
+        raise ValueError(f"Unrecognised day-of-week value {dow!r} in cron: {cron!r}")
     return f"{_DOW_MAP[dow]} *-*-* {hh}:{mm}:00"
 
 
